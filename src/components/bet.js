@@ -1,7 +1,23 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import TrackBetButton from './trackBetButton';
 
-export default function Bet () {
+export default function Bet ({bet}) {
     return (
-        <div>Bet</div>
+        <Fragment>
+
+        {bet !== undefined ? (
+            <Fragment>
+                <span>
+                    {bet.position} |
+                    {bet.odds} |
+                    {bet.line !== null ? bet.line : null}
+                    <TrackBetButton key={bet.id}/>
+                </span>  
+                   
+            </Fragment>
+            ):(
+            <div>Bet is still fetching...</div>
+        )}
+        </Fragment>
     )
 }
