@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-export default function Login () {
-    // do i need to set user state?
-    //do i need to lift this login method to app
+export default function Login (props) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const loginUrl = "http://localhost:3000/login";
     
@@ -10,23 +10,33 @@ export default function Login () {
         const postObj = {
             'method': 'POST',
             'headers': {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             'body': JSON.stringify({user})
         }
-        
+
         return fetch(loginUrl, postObj)
                 .then(res => res.json())
                 .then(user => {
-                    if(user.token){
-                        localStorage.setItem('user', JSON.stringify(user.user))
-                        localStorage.setItem('token', user.token)
-                    }
+                    localStorage.setItem('token', user.jwt)
+                    props.handleLogin(user.user)
                 })
-                .catch(err => console.log(err))
+
+    }
+    
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        login({username, password})
+            .then(() => props.history.push('/dashboard'))
     }
 
     return (
-        <div>Login</div>
+        <form onSubmit={handleSubmit}>
+            <input name="username" type="text" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)}/>
+            <input name="password" type="password" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)}/>
+            <button type="submit">Login</button>
+            <button onClick={props.flip}>Signup</button>
+        </form>
     );
 }

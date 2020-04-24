@@ -14,11 +14,17 @@ export default function Dashboard () {
         away_team: {name: null, logo:null},
         bets: []
     }]
-
     const [events, setEvents] = useState(initialEventsState)
-
+    
     useEffect(() => {
-        fetch(eventsUrl)
+        const token = localStorage.getItem('token')
+        const getObj = {
+            'method': 'GET',
+            'headers': {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        fetch(eventsUrl, getObj)
             .then(res => res.json())
             .then((events) => setEvents(events))
             .catch(err => console.log(err))
