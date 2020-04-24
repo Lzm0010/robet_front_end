@@ -11,10 +11,16 @@ function PlusCircleOutline(props){
     );
 }
 
-export default function TrackBetButton () {
+export default function TrackBetButton ({betId, addBet}) {
+
+    const handleClick = () => {
+        addBet(betId)
+    }
+
+
     return (
         // <Fab size="small" aria-label="add">
-            <PlusCircleOutline style={{color: green[500] }} />
+            <PlusCircleOutline onClick={handleClick} style={{color: green[500] }} />
         //{/* </Fab> */}
     )
 }

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Paper from '@material-ui/core/Paper';
 
 export default function Signup (props) {
     const [username, setUsername] = useState("");
@@ -33,13 +34,15 @@ export default function Signup (props) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input name="username" type="text" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)}/>
-            <input name="email" type="email" placeholder="Email" required value={email} onChange={e => setEmail(e.target.value)}/>
-            <input name="password" type="password" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)}/>
-            <input name="passwordConf" type="password" placeholder="Confirm Password" required value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)}/>
-            <button type="submit">Signup</button>
-            <button onClick={props.flip}>Login</button>
-        </form>
+        <Paper elevation={3}>
+            <form onSubmit={handleSubmit}>
+                <input name="username" type="text" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)}/>
+                <input name="email" type="email" placeholder="Email" required value={email} onChange={e => setEmail(e.target.value)}/>
+                <input name="password" type="password" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)}/>
+                <input name="passwordConf" type="password" placeholder="Confirm Password" required value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)}/>
+                <button type="submit">Signup</button>
+                <button onClick={props.flip}>Login</button>
+            </form>
+        </Paper>
     );
 }

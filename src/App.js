@@ -16,7 +16,7 @@ function App() {
     <Router>
       <Fragment>
         <Route exact path="/" render={(props) => <Auth {...props} handleLogin={handleLogin}/>}/>
-        <Route exact path="/dashboard" component={Dashboard}/>
+        <Route exact path="/dashboard" render={() => <Dashboard user={user}/>} />
         <Route exact path="/profile" component={Profile} />
         <Route render={() => <Redirect to='/' />} />
       </Fragment>

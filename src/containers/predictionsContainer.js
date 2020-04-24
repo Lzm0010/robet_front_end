@@ -1,11 +1,11 @@
 import React, {Fragment} from 'react';
 import UserStats from '../components/userStats';
 
-export default function FriendsContainer () {
+export default function PredictionsContainer () {
     return (
         <Fragment>
             <UserStats/>
-            {/* add multiple events by user */}
+            {/* add multiple events with best perf */}
         </Fragment>
     )
 }

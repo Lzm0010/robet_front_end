@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import TrackBetButton from './trackBetButton';
 
-export default function Bet ({bet}) {
+export default function Bet ({bet, addBet}) {
     return (
         <Fragment>
 
@@ -11,7 +11,7 @@ export default function Bet ({bet}) {
                     {bet.position} |
                     {bet.odds} |
                     {bet.line !== null ? bet.line : null}
-                    <TrackBetButton key={bet.id}/>
+                    <TrackBetButton key={bet.id} betId={bet.id} addBet={addBet}/>
                 </span>  
                    
             </Fragment>

@@ -1,18 +1,25 @@
 import React, {Fragment} from 'react';
-import BetsContainer from '../containers/betsContainer';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-export default function Event ({event, addBet}) {
+export default function Result ({result}) {
+
     return (
         <Fragment>
-
-        {event !== undefined ? (
+        {result !== undefined ? (
             <TableRow>
                 <TableCell component="th" scope="row">
-                    {event.away_team.name} @ {event.home_team.name}
+                    {result.event.away_team.name} @ {result.event.home_team.name}
                 </TableCell>
-                <BetsContainer bets={event.bets} addBet={addBet} />
+                <TableCell>
+                    {result.bet_type} - {result.position}
+                </TableCell>
+                <TableCell>
+                    {result.line} | {result.odds}
+                </TableCell>
+                <TableCell>
+                    {result.away_score} - {result.home_score}
+                </TableCell>
             </TableRow>
             ):(
             <TableRow>

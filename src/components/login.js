@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Paper from '@material-ui/core/Paper';
 
 export default function Login (props) {
     const [username, setUsername] = useState("");
@@ -32,11 +33,14 @@ export default function Login (props) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input name="username" type="text" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)}/>
-            <input name="password" type="password" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)}/>
-            <button type="submit">Login</button>
-            <button onClick={props.flip}>Signup</button>
-        </form>
+        <Paper elevation={3}>
+            <form onSubmit={handleSubmit}>
+                <input name="username" type="text" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)}/>
+                <input name="password" type="password" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)}/>
+                <button type="submit">Login</button>
+                <button onClick={props.flip}>Signup</button>
+            </form>
+        </Paper>
+
     );
 }
