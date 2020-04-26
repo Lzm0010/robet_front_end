@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import EventsContainer from '../containers/eventsContainer';
 import ResultsContainer from '../containers/resultsContainer';
@@ -28,7 +28,7 @@ export default function Dashboard (props) {
         <Grid container>
             <Grid item xs={6}>
                 Best Predictions
-                <PredictionsContainer />
+                <PredictionsContainer addBet={addBet}/>
             </Grid>
             
             <Grid item xs={6}>

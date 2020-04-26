@@ -1,5 +1,20 @@
 import React, {useState} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow:1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        margin: 100,
+        height: 240,
+        width: 200,
+        textAlign: 'center'
+    }
+}));
 
 export default function Signup (props) {
     const [username, setUsername] = useState("");
@@ -33,8 +48,11 @@ export default function Signup (props) {
             .then(() => props.history.push('/dashboard'))
     }
 
+    const classes = useStyles();
+
     return (
-        <Paper elevation={3}>
+        <Grid container justify="center" alignItems="center" className={classes.root}>
+        <Paper className={classes.paper} elevation={3}>
             <form onSubmit={handleSubmit}>
                 <input name="username" type="text" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)}/>
                 <input name="email" type="email" placeholder="Email" required value={email} onChange={e => setEmail(e.target.value)}/>
@@ -44,5 +62,6 @@ export default function Signup (props) {
                 <button onClick={props.flip}>Login</button>
             </form>
         </Paper>
+        </Grid>
     );
 }
