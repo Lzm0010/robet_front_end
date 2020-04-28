@@ -10,7 +10,7 @@ export default function Dashboard (props) {
     
     const userBetsUrl = "http://localhost:3000/mybets/"
     
-    const [userBets, setUserBets] = useState([])
+    const [userBets, setUserBets] = useState([]);
 
     useEffect(() => {
         const abortController = new AbortController()
@@ -25,7 +25,7 @@ export default function Dashboard (props) {
         }
         fetch(userBetsUrl, getObj)
             .then(res => res.json())
-            .then((user) => setUserBets(user.bets))
+            .then(user => setUserBets(user.bets))
             .catch(err => console.log(err))
 
         return () => abortController.abort();
@@ -56,7 +56,7 @@ export default function Dashboard (props) {
             
             <Grid item xs={6}>
                 My Bets
-                <ResultsContainer userBets={userBets}/>
+                <ResultsContainer userBets={userBets} user={props.user}/>
             </Grid>
                 
             <Grid item xs={6}>

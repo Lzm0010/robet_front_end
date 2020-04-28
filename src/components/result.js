@@ -2,12 +2,12 @@ import React, {Fragment, useState} from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-export default function Result ({result}) {
+export default function Result ({result, ticketId}) {
     const [amount, setAmount] = useState("")
     
-    const handleAmount = (event, ticket_id) => {
+    const handleAmount = (event) => {
         event.preventDefault()
-        const editTicketUrl = `http://localhost:3000/tickets/${ticket_id}`
+        const editTicketUrl = `http://localhost:3000/tickets/${ticketId}`
         const token = localStorage.getItem('token')
         const patchObj = {
             'method': 'PATCH',
@@ -40,8 +40,8 @@ export default function Result ({result}) {
                     {result.event.away_score} - {result.event.home_score}
                 </TableCell>
                 <TableCell>
-                    <form onSubmit={e => handleAmount(e, result.tickets[0].id)}>
-                        <input type="number" name="amount" placeholder={result.tickets[0].amount} value={amount} onChange={e => setAmount(e.target.value)}/>
+                    <form onSubmit={e => handleAmount(e)}>
+                        <input type="number" name="amount" placeholder={result.tickets.find(ticket=> ticket.id === ticketId).amount} value={amount} onChange={e => setAmount(e.target.value)}/>
                     </form>
                 </TableCell>
             </TableRow>
