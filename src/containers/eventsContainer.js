@@ -9,18 +9,22 @@ const EventsContainer = ({addBet}) => {
   const [events, setEvents] = useState([])
   
   useEffect(() => {
+      const abortController = new AbortController()
+      const signal = abortController.signal
       const token = localStorage.getItem('token')
       const getObj = {
           'method': 'GET',
           'headers': {
               'Authorization': `Bearer ${token}`
-          }
+          },
+          'signal': signal
       }
       fetch(eventsUrl, getObj)
       .then(res => res.json())
       .then((events) => setEvents(events))
       .catch(err => console.log(err))
       
+      return () => abortController.abort();
   }, [])
 
     return (

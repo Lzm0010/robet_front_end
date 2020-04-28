@@ -16,10 +16,10 @@ export default function Prediction ({prediction, addBet}) {
                     {prediction.position} - {prediction.line}
                 </TableCell>
                 <TableCell>
-                    {prediction.prediction.away_score} | {prediction.prediction.home_score}
+                    {parseFloat(prediction.prediction.away_score).toFixed(2)} | {parseFloat(prediction.prediction.home_score).toFixed(2)}
                 </TableCell>
                 <TableCell>
-                    {prediction.prediction_delta}
+                    {parseFloat(prediction.prediction_delta).toFixed(3)}
                     <TrackBetButton key={`pb-${prediction.id}`} betId={prediction.id} addBet={addBet} />
                 </TableCell>
             </TableRow>

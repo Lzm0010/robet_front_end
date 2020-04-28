@@ -8,18 +8,22 @@ const PredictionsContainer = ({addBet}) => {
     const [bestBets, setBestBets] = useState([])
   
     useEffect(() => {
+        const abortController = new AbortController()
+        const signal = abortController.signal
         const token = localStorage.getItem('token')
         const getObj = {
             'method': 'GET',
             'headers': {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            'signal': signal
         }
         fetch(bestBetsUrl, getObj)
         .then(res => res.json())
         .then((bets) => setBestBets(bets))
         .catch(err => console.log(err))
         
+        return () => abortController.abort();
     }, [])
 
         return (

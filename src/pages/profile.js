@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function Profile () {
+export default function Profile ({user}) {
     return (
         <div>
-            Profile Info
+            {user.username}
         </div>
     );
 }
