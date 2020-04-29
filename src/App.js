@@ -9,9 +9,9 @@ import Navbar from './containers/navbar';
 
 function App() {
   const [user, setUser] = useState({})
-
   const userInfoUrl = "http://localhost:3000/mybets/"
   const [userInfo, setUserInfo] = useState({})
+  const [balance, setBalance] = useState(userInfo.balance)
 
   useEffect(() => {
       const abortController = new AbortController()
@@ -27,11 +27,34 @@ function App() {
       
       fetch(userInfoUrl, getObj)
           .then(res => res.json())
-          .then(user => setUserInfo(user))
+          .then(user => {
+            setUserInfo(user)
+            setBalance(user.balance)
+          })
           .catch(err => console.log(err))
 
       return () => abortController.abort();
   }, [])
+
+  const handleBalance = (money) => {
+      const editUserUrl = `http://localhost:3000/users/${userInfo.id}`
+      const token = localStorage.getItem('token')
+      const userObj = {
+          'method': 'PATCH',
+          'headers': {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+          },
+          'body': JSON.stringify({balance: parseFloat(balance) + parseFloat(money)}) 
+      }
+      fetch(editUserUrl, userObj)
+          .then(res => res.json())
+          .then(user => {
+            setBalance(user.balance)
+            setUserInfo(user)
+          })
+  }
 
   const handleLogin = (user) => {
     setUser(user)
@@ -42,8 +65,8 @@ function App() {
     <Navbar />
     <Switch>
         <Route exact path="/" render={(props) => <Auth {...props} handleLogin={handleLogin}/>}/>
-        <Route exact path="/dashboard" render={(props) => <Dashboard {...props} user={user}/>} />
-        <Route exact path="/profile" render={(props) => <Profile {...props} userInfo={userInfo} />} />
+        <Route exact path="/dashboard" render={(props) => <Dashboard {...props} user={user} handleBalance={handleBalance}/>} />
+        <Route exact path="/profile" render={(props) => <Profile {...props} userInfo={userInfo} balance={balance} handleBalance={handleBalance}/>} />
         <Route exact path="/users" render={(props) => <UsersContainer {...props} user={user}/>} />
         <Route exact path="/robet" render={(props) => <RobetContainer {...props}/>}/>
         <Route render={() => <Redirect to='/' />} />

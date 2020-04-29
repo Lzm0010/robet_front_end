@@ -16,8 +16,8 @@ const useStyles = makeStyles({
 })
 
 
-export default function Result ({result, ticketId}) {
-    const [amount, setAmount] = useState("")
+export default function Result ({result, ticketId, handleBalance}) {
+    const [amount, setAmount] = useState(result.tickets.find(ticket=> ticket.id === ticketId).amount)
     const [betReturn, setBetReturn] = useState(result.tickets.find(ticket=> ticket.id === ticketId).return)
     const classes = useStyles()
     
@@ -25,7 +25,7 @@ export default function Result ({result, ticketId}) {
         event.preventDefault()
         const editTicketUrl = `http://localhost:3000/tickets/${ticketId}`
         const token = localStorage.getItem('token')
-        const patchObj = {
+        const ticketObj = {
             'method': 'PATCH',
             'headers': {
                 'Authorization': `Bearer ${token}`,
@@ -34,12 +34,15 @@ export default function Result ({result, ticketId}) {
             },
             'body': JSON.stringify({amount:amount}) 
         }
-        fetch(editTicketUrl, patchObj)
+        
+        fetch(editTicketUrl, ticketObj)
             .then(res => res.json())
             .then(ticket => {
                 setAmount(ticket.amount)
+                handleBalance(parseFloat(ticket.return) - parseFloat(betReturn))
                 setBetReturn(ticket.return)
             })
+
     }
 
     const renderSwitch = (param) => {
@@ -74,7 +77,7 @@ export default function Result ({result, ticketId}) {
                 </TableCell>
                 <TableCell>
                     <form onSubmit={e => handleAmount(e)}>
-                        <input type="number" name="amount" placeholder={result.tickets.find(ticket=> ticket.id === ticketId).amount} value={amount} onChange={e => setAmount(e.target.value)}/>
+                        <input type="number" name="amount" required placeholder={result.tickets.find(ticket=> ticket.id === ticketId).amount} value={amount} onChange={e => setAmount(e.target.value)}/>
                     </form>
                 </TableCell>
                 <TableCell>

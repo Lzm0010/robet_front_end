@@ -56,7 +56,7 @@ export default function Dashboard (props) {
             
             <Grid item xs={6}>
                 My Bets
-                <ResultsContainer userBets={userBets} user={props.user}/>
+                <ResultsContainer userBets={userBets} user={props.user} handleBalance={props.handleBalance}/>
             </Grid>
                 
             <Grid item xs={6}>
