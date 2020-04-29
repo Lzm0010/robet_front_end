@@ -18,6 +18,7 @@ const useStyles = makeStyles({
 
 export default function Result ({result, ticketId}) {
     const [amount, setAmount] = useState("")
+    const [betReturn, setBetReturn] = useState(result.tickets.find(ticket=> ticket.id === ticketId).return)
     const classes = useStyles()
     
     const handleAmount = (event) => {
@@ -35,7 +36,10 @@ export default function Result ({result, ticketId}) {
         }
         fetch(editTicketUrl, patchObj)
             .then(res => res.json())
-            .then(ticket => setAmount(ticket.amount))
+            .then(ticket => {
+                setAmount(ticket.amount)
+                setBetReturn(ticket.return)
+            })
     }
 
     const renderSwitch = (param) => {
@@ -72,6 +76,11 @@ export default function Result ({result, ticketId}) {
                     <form onSubmit={e => handleAmount(e)}>
                         <input type="number" name="amount" placeholder={result.tickets.find(ticket=> ticket.id === ticketId).amount} value={amount} onChange={e => setAmount(e.target.value)}/>
                     </form>
+                </TableCell>
+                <TableCell>
+                    {result.event.status === "finished" ? (
+                        <span>$ {parseFloat(betReturn).toFixed(2)}</span>
+                    ): <span>TBD</span>}
                 </TableCell>
             </TableRow>
             ):(
