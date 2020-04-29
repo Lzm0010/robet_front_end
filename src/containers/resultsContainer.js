@@ -9,6 +9,7 @@ export default function ResultsContainer ({userBets, user}) {
     return (
         <Fragment>
             <EventTable headers={["Event", "Bet", "Line/Odds", "Result", "Amount"]}>
+                {console.log(userBets)}
                 {userBets.map(result => <Result key={`result-${result.id}`} result={result} ticketId={result.tickets.find(ticket => ticket.user_id === user.id).id}/> )}
             </EventTable>
         </Fragment>

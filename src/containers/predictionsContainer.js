@@ -29,7 +29,7 @@ const PredictionsContainer = ({addBet}) => {
         return (
             <Fragment>
             <EventTable headers={["Event", "Bet", "Prediction", "Delta"]}>
-                {bestBets.map(bet => <Prediction key={`p-${bet.id}`} prediction={bet} addBet={addBet} />)}
+                {bestBets.slice(0,15).map(bet => <Prediction key={`p-${bet.id}`} prediction={bet} addBet={addBet} />)}
             </EventTable>
             </Fragment>
         )

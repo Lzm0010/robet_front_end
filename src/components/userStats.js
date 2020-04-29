@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
-export default function userStats () {
+export default function userStats ({userInfo}) {
     return (
-        <div>User Stats</div>
+        <Fragment>
+            <h4>Record: {userInfo.record.wins} - {userInfo.record.losses} - {userInfo.record.ties}</h4>
+        </Fragment>
     )
 }

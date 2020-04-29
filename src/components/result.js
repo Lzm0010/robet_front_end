@@ -1,9 +1,24 @@
 import React, {Fragment, useState} from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    win: {
+        color: 'green',
+    },
+    loss: {
+        color: 'red',
+    },
+    push: {
+        color: 'grey'
+    }
+})
+
 
 export default function Result ({result, ticketId}) {
     const [amount, setAmount] = useState("")
+    const classes = useStyles()
     
     const handleAmount = (event) => {
         event.preventDefault()
@@ -23,6 +38,19 @@ export default function Result ({result, ticketId}) {
             .then(ticket => setAmount(ticket.amount))
     }
 
+    const renderSwitch = (param) => {
+        switch(param) {
+            case 'Win':
+                return <span className={classes.win}>W </span>;
+            case "Loss":
+                return <span className={classes.loss}>L </span>;
+            case "Push":
+                return <span className={classes.push}>P </span>;
+            default:
+                return null;
+        }
+    }
+
     return (
         <Fragment>
         {result !== undefined ? (
@@ -37,6 +65,7 @@ export default function Result ({result, ticketId}) {
                     {result.line} | {result.odds}
                 </TableCell>
                 <TableCell>
+                    {renderSwitch(result.outcome)}
                     {result.event.away_score} - {result.event.home_score}
                 </TableCell>
                 <TableCell>

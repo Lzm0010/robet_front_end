@@ -40,7 +40,7 @@ export default function Dashboard (props) {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            'body': JSON.stringify({bet_id: bet_id, user_id: props.user.id}) 
+            'body': JSON.stringify({bet_id: bet_id, user_id: props.user.id, amount: 0}) 
         }
         fetch(createTicketUrl, postObj)
             .then(res => res.json())
