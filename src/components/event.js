@@ -9,6 +9,9 @@ const useStyles = makeStyles({
       width: 30,
       height: 20
     },
+    cells: {
+        fontSize: 11
+    }
 });
 
 function importAll(r){
@@ -42,15 +45,15 @@ export default function Event ({event, addBet}) {
         <Fragment>
 
         {event !== undefined ? (
-            <TableRow>
-                <TableCell component="th" scope="row">
+            <TableRow hover role="checkbox" tabIndex={-1} key={`event-row-${event.id}`}>
+                <TableCell component="th" scope="row" className={classes.cells}>
                    <img className={classes.logo} src={mapLogo()[1]} alt={event.away_team.name}/> {event.away_team.name} @ <img className={classes.logo} src={mapLogo()[0]} alt={event.home_team.name}/> {event.home_team.name}
                 </TableCell>
                 <BetsContainer bets={event.bets} addBet={addBet} positionLogo={positionLogo}/>
             </TableRow>
             ):(
             <TableRow>
-                <TableCell>
+                <TableCell className={classes.cells}>
                     Event is still fetching...
                 </TableCell>
             </TableRow>

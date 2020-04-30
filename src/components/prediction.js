@@ -9,6 +9,9 @@ const useStyles = makeStyles({
       width: 30,
       height: 20
     },
+    cells: {
+        fontSize: 11
+    }
 });
 
 function importAll(r){
@@ -41,18 +44,20 @@ export default function Prediction ({prediction, addBet}) {
     return (
         <Fragment>
         {prediction !== undefined ? (
-            <TableRow>
-                <TableCell component="th" scope="row">
+            <TableRow hover role="checkbox" tabIndex={-1} key={`prediction-row-${prediction.id}`}>
+                <TableCell component="th" scope="row" className={classes.cells}>
                 <img className={classes.logo} src={mapLogo()[1]} alt={prediction.event.away_team.name}/> {prediction.event.away_team.name} @ <img className={classes.logo} src={mapLogo()[0]} alt={prediction.event.home_team.name}/> {prediction.event.home_team.name}
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.cells}>
                     {positionLogo()} {prediction.line !== null ? <span>| {prediction.line}</span> : null}
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.cells}>
                     {parseFloat(prediction.prediction.away_score).toFixed(2)} | {parseFloat(prediction.prediction.home_score).toFixed(2)}
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.cells}>
                     {parseFloat(prediction.prediction_delta).toFixed(3)}
+                </TableCell>
+                <TableCell>
                     <TrackBetButton key={`pb-${prediction.id}`} betId={prediction.id} addBet={addBet} />
                 </TableCell>
             </TableRow>

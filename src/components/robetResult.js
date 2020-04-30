@@ -62,7 +62,7 @@ export default function RobetResult ({prediction}) {
     return (
         <Fragment>
         {prediction !== undefined ? (
-            <TableRow>
+            <TableRow hover role="checkbox" tabIndex={-1} key={`robet-row-${prediction.id}`}>
                 <TableCell component="th" scope="row">
                 <img className={classes.logo} src={mapLogo()[1]} alt={prediction.event.away_team.name}/> {prediction.event.away_team.name} @ <img className={classes.logo} src={mapLogo()[0]} alt={prediction.event.home_team.name}/> {prediction.event.home_team.name}
                 </TableCell>

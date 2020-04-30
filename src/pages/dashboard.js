@@ -43,7 +43,10 @@ export default function Dashboard (props) {
         }
         fetch(createTicketUrl, postObj)
             .then(res => res.json())
-            .then(ticket => setUserBets([...userBets, ticket.bet]))
+            .then(ticket => {
+                setUserBets([...userBets, ticket.bet])
+                props.handleUserInfo()
+            })
     }
 
     const deleteTicket = (ticketId) => {
@@ -64,13 +67,14 @@ export default function Dashboard (props) {
                     return bet.tickets.find(ticket => ticket.user_id === props.user.id).id !== ticketId
                 })
                 setUserBets(filteredArray)
+                props.handleUserInfo()
             })
     }
     
     return (
         <Grid container>
             <Grid item xs={6}>
-                Best Predictions
+                RoBet's Best Picks
                 <PredictionsContainer addBet={addBet}/>
             </Grid>
             
@@ -80,12 +84,12 @@ export default function Dashboard (props) {
             </Grid>
                 
             <Grid item xs={6}>
-                Friends Records
+                Friend's Performance
                 <FriendsContainer />
             </Grid>
                 
             <Grid item xs={6}>
-                All Games
+                Today's Games
                 <EventsContainer addBet={addBet}/>
             </Grid>
         </Grid>

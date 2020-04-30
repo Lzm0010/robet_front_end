@@ -61,7 +61,7 @@ function App() {
     <Navbar user={user}/>
     <Switch>
         <Route exact path="/" render={(props) => <Auth {...props} handleLogin={handleLogin}/>}/>
-        <Route exact path="/dashboard" render={(props) => <Dashboard {...props} user={user} handleBalance={handleBalance}/>} />
+        <Route exact path="/dashboard" render={(props) => <Dashboard {...props} user={user} handleBalance={handleBalance} handleUserInfo={handleUserInfo}/>} />
         <Route exact path="/profile" render={(props) => <Profile {...props} userInfo={userInfo} balance={balance} handleBalance={handleBalance}/>} />
         <Route exact path="/users" render={(props) => <UsersContainer {...props} user={user}/>} />
         <Route exact path="/robet" render={(props) => <RobetContainer {...props}/>}/>
