@@ -2,6 +2,7 @@ import React, {Fragment, useState} from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { makeStyles } from '@material-ui/core/styles';
+import RemoveTicketButton from './removeTicketButton';
 
 const useStyles = makeStyles({
     win: {
@@ -12,14 +13,31 @@ const useStyles = makeStyles({
     },
     push: {
         color: 'grey'
+    },
+    logo: {
+        width: 30,
+        height: 20
     }
 })
 
+function importAll(r){
+    let images = {};
+    r.keys().map(item => images[item.replace('./', '')] = r(item));
+    return images;
+}
 
-export default function Result ({result, ticketId, handleBalance}) {
+const logos = importAll(require.context('../assets/images/mlb', false, /\.gif$/)); 
+
+export default function Result ({result, ticketId, handleBalance, deleteTicket}) {
     const [amount, setAmount] = useState(result.tickets.find(ticket=> ticket.id === ticketId).amount)
     const [betReturn, setBetReturn] = useState(result.tickets.find(ticket=> ticket.id === ticketId).return)
     const classes = useStyles()
+
+    const mapLogo = () => {
+        const homeTeam = logos[`${result.event.home_team.logo}`]
+        const awayTeam = logos[`${result.event.away_team.logo}`]
+        return [homeTeam, awayTeam]
+    }
     
     const handleAmount = (event) => {
         event.preventDefault()
@@ -58,18 +76,28 @@ export default function Result ({result, ticketId, handleBalance}) {
         }
     }
 
+    const positionLogo = () => {
+        if (result.position === "Home"){
+            return <img className={classes.logo} src={logos[`${result.event.home_team.logo}`]} alt={result.position} />
+        } else if (result.position === "Away") {
+            return <img className={classes.logo} src={logos[`${result.event.away_team.logo}`]} alt={result.position} />
+        } else {
+            return result.position
+        }
+    }
+
     return (
         <Fragment>
         {result !== undefined ? (
             <TableRow>
                 <TableCell component="th" scope="row">
-                    {result.event.away_team.name} @ {result.event.home_team.name}
+                    <img className={classes.logo} src={mapLogo()[1]} alt={result.event.away_team.name}/> {result.event.away_team.name} @ <img className={classes.logo} src={mapLogo()[0]} alt={result.event.home_team.name}/> {result.event.home_team.name}
                 </TableCell>
                 <TableCell>
-                    {result.bet_type} - {result.position}
+                    {positionLogo()}
                 </TableCell>
                 <TableCell>
-                    {result.line} | {result.odds}
+                    {result.line !== null ? <span>{result.line} | </span> : null}{result.odds}
                 </TableCell>
                 <TableCell>
                     {renderSwitch(result.outcome)}
@@ -84,6 +112,9 @@ export default function Result ({result, ticketId, handleBalance}) {
                     {result.event.status === "finished" ? (
                         <span>$ {parseFloat(betReturn).toFixed(2)}</span>
                     ): <span>TBD</span>}
+                </TableCell>
+                <TableCell>
+                    <RemoveTicketButton ticketId={ticketId} deleteTicket={deleteTicket}/>
                 </TableCell>
             </TableRow>
             ):(

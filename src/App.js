@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import Auth from './pages/auth';
 import Dashboard from './pages/dashboard';
@@ -9,32 +9,27 @@ import Navbar from './containers/navbar';
 
 function App() {
   const [user, setUser] = useState({})
-  const userInfoUrl = "http://localhost:3000/mybets/"
   const [userInfo, setUserInfo] = useState({})
   const [balance, setBalance] = useState(userInfo.balance)
 
-  useEffect(() => {
-      const abortController = new AbortController()
-      const signal = abortController.signal
-      const token = localStorage.getItem('token')
-      const getObj = {
-          'method': 'GET',
-          'headers': {
-              'Authorization': `Bearer ${token}`
-          },
-          'signal': signal
-      }
-      
-      fetch(userInfoUrl, getObj)
-          .then(res => res.json())
-          .then(user => {
-            setUserInfo(user)
-            setBalance(user.balance)
-          })
-          .catch(err => console.log(err))
-
-      return () => abortController.abort();
-  }, [])
+  const handleUserInfo = () => {
+    const userInfoUrl = "http://localhost:3000/mybets/"
+    const token = localStorage.getItem('token')
+    const getObj = {
+        'method': 'GET',
+        'headers': {
+            'Authorization': `Bearer ${token}`
+        }
+    }
+    
+    fetch(userInfoUrl, getObj)
+        .then(res => res.json())
+        .then(user => {
+          setUserInfo(user)
+          setBalance(user.balance)
+        })
+        .catch(err => console.log(err))
+  }
 
   const handleBalance = (money) => {
       const editUserUrl = `http://localhost:3000/users/${userInfo.id}`
@@ -58,11 +53,12 @@ function App() {
 
   const handleLogin = (user) => {
     setUser(user)
+    handleUserInfo()
   };
 
   return (
     <Router>
-    <Navbar />
+    <Navbar user={user}/>
     <Switch>
         <Route exact path="/" render={(props) => <Auth {...props} handleLogin={handleLogin}/>}/>
         <Route exact path="/dashboard" render={(props) => <Dashboard {...props} user={user} handleBalance={handleBalance}/>} />

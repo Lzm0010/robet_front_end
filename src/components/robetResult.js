@@ -12,12 +12,39 @@ const useStyles = makeStyles({
     },
     push: {
         color: 'grey'
+    },
+    logo: {
+        width: 30,
+        height: 20
     }
 })
 
+function importAll(r){
+    let images = {};
+    r.keys().map(item => images[item.replace('./', '')] = r(item));
+    return images;
+}
+
+const logos = importAll(require.context('../assets/images/mlb', false, /\.gif$/)); 
 
 export default function RobetResult ({prediction}) {
     const classes = useStyles()
+
+    const mapLogo = () => {
+        const homeTeam = logos[`${prediction.event.home_team.logo}`]
+        const awayTeam = logos[`${prediction.event.away_team.logo}`]
+        return [homeTeam, awayTeam]
+    }
+
+    const positionLogo = () => {
+        if (prediction.position === "Home"){
+            return <img className={classes.logo} src={logos[`${prediction.event.home_team.logo}`]} alt={prediction.position} />
+        } else if (prediction.position === "Away") {
+            return <img className={classes.logo} src={logos[`${prediction.event.away_team.logo}`]} alt={prediction.position} />
+        } else {
+            return prediction.position
+        }
+    }
 
     const renderSwitch = (param) => {
         switch(param) {
@@ -37,10 +64,10 @@ export default function RobetResult ({prediction}) {
         {prediction !== undefined ? (
             <TableRow>
                 <TableCell component="th" scope="row">
-                    {prediction.event.away_team.name} @ {prediction.event.home_team.name}
+                <img className={classes.logo} src={mapLogo()[1]} alt={prediction.event.away_team.name}/> {prediction.event.away_team.name} @ <img className={classes.logo} src={mapLogo()[0]} alt={prediction.event.home_team.name}/> {prediction.event.home_team.name}
                 </TableCell>
                 <TableCell>
-                    {prediction.position} - {prediction.line}
+                {positionLogo()} {prediction.line !== null ? <span>| {prediction.line}</span> : null}
                 </TableCell>
                 <TableCell>
                     {parseFloat(prediction.prediction.away_score).toFixed(2)} | {parseFloat(prediction.prediction.home_score).toFixed(2)}
