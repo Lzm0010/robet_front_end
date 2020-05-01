@@ -5,7 +5,7 @@ import Dashboard from './pages/dashboard';
 import Profile from './pages/profile';
 import UsersContainer from './containers/usersContainer';
 import RobetContainer from './containers/roBetContainer';
-import Navbar from './containers/navbar';
+import NavDrawer from './containers/navDrawer';
 
 function App() {
   const [user, setUser] = useState({})
@@ -58,7 +58,7 @@ function App() {
 
   return (
     <Router>
-    <Navbar user={user}/>
+    <NavDrawer/>
     <Switch>
         <Route exact path="/" render={(props) => <Auth {...props} handleLogin={handleLogin}/>}/>
         <Route exact path="/dashboard" render={(props) => <Dashboard {...props} user={user} handleBalance={handleBalance} handleUserInfo={handleUserInfo}/>} />
