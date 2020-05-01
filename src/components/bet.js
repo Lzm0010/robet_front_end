@@ -9,9 +9,9 @@ export default function Bet ({bet, addBet, positionLogo}) {
             <Fragment>
                 <span>
                     {positionLogo(bet)}
-                    {bet.odds > 0 ? <span> +{bet.odds}</span> : <span> {bet.odds}</span>}
-                    {bet.line !== null ? <span> | {bet.line}</span> : null}
-                    <TrackBetButton key={bet.id} betId={bet.id} addBet={addBet}/>
+                    {bet.odds > 0 ? <span> +{bet.odds} </span> : <span> {bet.odds} </span>}
+                    {bet.line !== null ? <span> | {bet.line} </span> : null}
+                    <span> <TrackBetButton key={bet.id} betId={bet.id} addBet={addBet}/> </span>
                 </span>  
                    
             </Fragment>

@@ -15,8 +15,8 @@ const useStyles = makeStyles({
     },
     container: {
       minWidth: 650,
-      maxHeight: 400,
-      minHeight: 400
+      maxHeight: 370,
+      minHeight: 370
     },
     header: {
         fontSize: 12

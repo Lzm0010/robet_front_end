@@ -1,11 +1,19 @@
 import React, {useState, useEffect} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import EventsContainer from '../containers/eventsContainer';
 import ResultsContainer from '../containers/resultsContainer';
 import FriendsContainer from '../containers/friendsContainer';
 import PredictionsContainer from '../containers/predictionsContainer'
 
+const useStyles = makeStyles({
+    headings: {
+        textAlign: "center"
+    }
+})
+
 export default function Dashboard (props) {
+    const classes = useStyles()
     const createTicketUrl = `http://localhost:3000/tickets`
     const userBetsUrl = "http://localhost:3000/mybets/"
     
@@ -74,22 +82,22 @@ export default function Dashboard (props) {
     return (
         <Grid container>
             <Grid item xs={6}>
-                RoBet's Best Picks
+                <h6 className={classes.headings}>RoBet's Best Picks</h6>
                 <PredictionsContainer addBet={addBet}/>
             </Grid>
             
             <Grid item xs={6}>
-                My Bets
+                <h6 className={classes.headings}>My Bets</h6>
                 <ResultsContainer userBets={userBets} user={props.user} handleBalance={props.handleBalance} deleteTicket={deleteTicket}/>
             </Grid>
                 
             <Grid item xs={6}>
-                Friend's Performance
+                <h6 className={classes.headings}>Friend's Performance</h6>
                 <FriendsContainer />
             </Grid>
                 
             <Grid item xs={6}>
-                Today's Games
+                <h6 className={classes.headings}>Today's Games</h6>
                 <EventsContainer addBet={addBet}/>
             </Grid>
         </Grid>

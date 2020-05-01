@@ -17,13 +17,13 @@ export default function BetsContainer ({bets, addBet, positionLogo}) {
             {bets !== undefined ? (
                 <Fragment>
                     <TableCell className={classes.cells}>
-                        {bets.slice(0,2).map(bet => <Bet key={bet.id} bet={bet} addBet={addBet} positionLogo={positionLogo}/>)}
+                        {bets.filter(bet => bet.bet_type === "Moneyline").sort((a,b) => a.position.localeCompare(b.position)).map(bet => <Bet key={bet.id} bet={bet} addBet={addBet} positionLogo={positionLogo}/>)}
                     </TableCell>
                     <TableCell className={classes.cells}>
-                        {bets.slice(2,4).map(bet => <Bet key={bet.id} bet={bet} addBet={addBet} positionLogo={positionLogo}/>)}
+                        {bets.filter(bet => bet.bet_type === "Total").sort((a,b) => a.position.localeCompare(b.position)).map(bet => <Bet key={bet.id} bet={bet} addBet={addBet} positionLogo={positionLogo}/>)}
                     </TableCell>
                     <TableCell className={classes.cells}>
-                        {bets.slice(4,6).map(bet => <Bet key={bet.id} bet={bet} addBet={addBet} positionLogo={positionLogo}/>)}
+                        {bets.filter(bet => bet.bet_type === "Spread").sort((a,b) => a.position.localeCompare(b.position)).map(bet => <Bet key={bet.id} bet={bet} addBet={addBet} positionLogo={positionLogo}/>)}
                     </TableCell>
                 </Fragment>
              ) : (<div>Still Fetching...</div>)}
