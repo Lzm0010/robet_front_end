@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
-import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
+import React, {Fragment, useState} from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import PrivateRoute from './privateRoute'
+import Home from './pages/home';
 import Auth from './pages/auth';
 import Dashboard from './pages/dashboard';
 import Profile from './pages/profile';
@@ -7,10 +9,14 @@ import UsersContainer from './containers/usersContainer';
 import RobetContainer from './containers/roBetContainer';
 import NavDrawer from './containers/navDrawer';
 
+
 function App() {
+  const [authed, setAuthed] = useState(false)
   const [user, setUser] = useState({})
   const [userInfo, setUserInfo] = useState({})
   const [balance, setBalance] = useState(userInfo.balance)
+  const [isNavHidden, setIsNavHidden] = useState(true)
+
 
   const handleUserInfo = () => {
     const userInfoUrl = "http://localhost:3000/mybets/"
@@ -54,20 +60,31 @@ function App() {
   const handleLogin = (user) => {
     setUser(user)
     handleUserInfo()
+    setAuthed(true)
+    setIsNavHidden(false)
   };
 
+
+  const MainContainer = () => (
+    <Fragment>
+        {isNavHidden ? null : <NavDrawer/> }
+        <PrivateRoute exact path="/dashboard" component={Dashboard} authed={authed} user={user} handleBalance={handleBalance} handleUserInfo={handleUserInfo} />
+        <PrivateRoute exact path="/profile" component={Profile} authed={authed} userInfo={userInfo} balance={balance} handleBalance={handleBalance} />
+        <PrivateRoute exact path="/users" component={UsersContainer} authed={authed} user={user} />
+        <PrivateRoute exact path="/robet" component={RobetContainer} authed={authed}/>
+    </Fragment>
+  )
+  
   return (
-    <Router>
-    <NavDrawer/>
-    <Switch>
-        <Route exact path="/" render={(props) => <Auth {...props} handleLogin={handleLogin}/>}/>
-        <Route exact path="/dashboard" render={(props) => <Dashboard {...props} user={user} handleBalance={handleBalance} handleUserInfo={handleUserInfo}/>} />
-        <Route exact path="/profile" render={(props) => <Profile {...props} userInfo={userInfo} balance={balance} handleBalance={handleBalance}/>} />
-        <Route exact path="/users" render={(props) => <UsersContainer {...props} user={user}/>} />
-        <Route exact path="/robet" render={(props) => <RobetContainer {...props}/>}/>
-        <Route render={() => <Redirect to='/' />} />
-      </Switch>
-    </Router>
+      <Fragment>
+        <Router>
+          <Switch>
+            <Route exact path="/" render={() => <Home/>} />
+            <Route exact path="/login" render={(props) => <Auth {...props} handleLogin={handleLogin}/>}/>
+            <Route component={MainContainer}/>
+          </Switch>
+        </Router>
+      </Fragment>
   );
 }
 

@@ -13,6 +13,7 @@ const useStyles = makeStyles({
 })
 
 export default function Dashboard (props) {
+    console.log(props)
     const classes = useStyles()
     const createTicketUrl = `http://localhost:3000/tickets`
     const userBetsUrl = "http://localhost:3000/mybets/"

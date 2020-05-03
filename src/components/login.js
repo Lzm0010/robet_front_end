@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -24,8 +25,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login (props) {
+    const classes = useStyles()
+    const history = useHistory()
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
 
     const loginUrl = "http://localhost:3000/login";
     
@@ -46,15 +50,14 @@ export default function Login (props) {
                     props.handleLogin(user.user)
                 })
 
+
     }
     
     const handleSubmit = (e) => {
         e.preventDefault()
         login({username, password})
-            .then(() => props.history.push('/dashboard'))
+            .then(() => history.push('/dashboard'))
     }
-
-    const classes = useStyles()
 
     return (
         <Grid container alignItems="center" justify="center" className={classes.root}>
