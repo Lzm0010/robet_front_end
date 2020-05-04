@@ -25,7 +25,10 @@ function importAll(r){
     return images;
 }
 
-const logos = importAll(require.context('../assets/images/mlb', false, /\.gif$/)); 
+const mlb_logos = importAll(require.context('../assets/images/mlb', false, /\.gif$/)); 
+const nfl_logos = importAll(require.context('../assets/images/nfl', false, /\.gif$/)); 
+const nba_logos = importAll(require.context('../assets/images/nba', false, /\.gif$/));
+const logos = {...mlb_logos, ...nfl_logos, ...nba_logos};
 
 export default function RobetResult ({prediction}) {
     const classes = useStyles()
