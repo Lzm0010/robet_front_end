@@ -1,11 +1,14 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
+import Alert from '@material-ui/lab/Alert';
 import { UsersContext } from '../context/usersContext';
 import EventsContainer from '../containers/eventsContainer';
 import ResultsContainer from '../containers/resultsContainer';
 import FriendsContainer from '../containers/friendsContainer';
-import PredictionsContainer from '../containers/predictionsContainer'
+import PredictionsContainer from '../containers/predictionsContainer';
 
 const useStyles = makeStyles({
     headings: {
@@ -13,12 +16,25 @@ const useStyles = makeStyles({
     }
 })
 
+function TransitionLeft(props) {
+    return <Slide {...props} direction="left" />;
+  }
+
 export default function Dashboard (props) {
     const classes = useStyles()
     const usersContext = useContext(UsersContext);
     const {handleUserInfo, handleBalance} = usersContext;
-    
+
+    const [open, setOpen] = useState(false);
+    const [transition, setTransition] = useState(undefined);
+    const [message, setMessage] = useState("");
+    const [severity, setSeverity] = useState("");
     const [userBets, setUserBets] = useState([]);
+
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
     
     useEffect(() => {
         const userBetsUrl = "http://localhost:3000/mybets/";
@@ -43,23 +59,37 @@ export default function Dashboard (props) {
     }, [])
     
     const addBet = (bet_id) => {
-        const createTicketUrl = `http://localhost:3000/tickets`;
-        const token = localStorage.getItem('token')
-        const postObj = {
-            'method': 'POST',
-            'headers': {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            'body': JSON.stringify({bet_id: bet_id, user_id: props.user.id, amount: 0}) 
+        if (userBets.find(bet => bet.id === bet_id && bet.tickets.find(ticket => ticket.user_id === props.user.id))) {
+            setMessage("You can't make the same bet twice!")
+            setSeverity("error")
+            setTransition(() => TransitionLeft);
+            setOpen(true);
+
+        } else {
+            const createTicketUrl = `http://localhost:3000/tickets`;
+            const token = localStorage.getItem('token')
+            const postObj = {
+                'method': 'POST',
+                'headers': {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                'body': JSON.stringify({bet_id: bet_id, user_id: props.user.id, amount: 0}) 
+            }
+
+            fetch(createTicketUrl, postObj)
+                .then(res => res.json())
+                .then(ticket => {
+                    setUserBets([...userBets, ticket.bet])
+                    handleUserInfo()
+                })
+
+            setMessage("Bet added!")
+            setSeverity("success")
+            setTransition(() => TransitionLeft);
+            setOpen(true);
         }
-        fetch(createTicketUrl, postObj)
-            .then(res => res.json())
-            .then(ticket => {
-                setUserBets([...userBets, ticket.bet])
-                handleUserInfo()
-            })
     }
 
     const deleteTicket = (ticketId) => {
@@ -82,6 +112,11 @@ export default function Dashboard (props) {
                 setUserBets(filteredArray)
                 handleUserInfo()
             })
+            
+        setMessage("Bet removed!")
+        setSeverity("success")
+        setTransition(() => TransitionLeft);
+        setOpen(true);
     }
     
     return (
@@ -105,6 +140,16 @@ export default function Dashboard (props) {
                 <h6 className={classes.headings}>Today's Games</h6>
                 <EventsContainer addBet={addBet}/>
             </Grid>
+            <Snackbar
+                open={open}
+                onClose={handleClose}
+                TransitionComponent={transition}
+                autoHideDuration={5000}
+            >
+                <Alert onClose={handleClose} severity={severity}>
+                    {message}
+                </Alert>
+            </Snackbar>
         </Grid>
     );
 }
