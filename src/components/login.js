@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { UsersContext } from '../context/usersContext';
 import {useHistory} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -27,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Login (props) {
     const classes = useStyles()
     const history = useHistory()
+
+    const usersContext = useContext(UsersContext);
+    const {handleUserInfo} = usersContext;
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -48,6 +53,7 @@ export default function Login (props) {
                 .then(user => {
                     localStorage.setItem('token', user.jwt)
                     props.handleLogin(user.user)
+                    handleUserInfo()
                 })
 
 

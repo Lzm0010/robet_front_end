@@ -60,7 +60,9 @@ export default function Result ({result, ticketId, handleBalance, deleteTicket})
             .then(res => res.json())
             .then(ticket => {
                 setAmount(ticket.amount)
-                handleBalance(parseFloat(ticket.return) - parseFloat(betReturn))
+                if (ticket.bet.event.status === "finished") {
+                    handleBalance(parseFloat(ticket.return) - parseFloat(betReturn))
+                } 
                 setBetReturn(ticket.return)
             })
 

@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { UsersContext } from '../context/usersContext';
+import {useHistory} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -23,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Signup (props) {
+    const history = useHistory()
+
+    const usersContext = useContext(UsersContext);
+    const {handleUserInfo} = usersContext;
+
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -45,13 +52,14 @@ export default function Signup (props) {
                 .then(user => {
                     localStorage.setItem('token', user.jwt)
                     props.handleLogin(user.user)
+                    handleUserInfo()
                 })
     }
     
     const handleSubmit = (e) => {
         e.preventDefault()
         signup({username, email, password, passwordConfirm})
-            .then(() => props.history.push('/dashboard'))
+            .then(() => history.push('/dashboard'))
     }
 
     const classes = useStyles();

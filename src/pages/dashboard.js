@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import { UsersContext } from '../context/usersContext';
 import EventsContainer from '../containers/eventsContainer';
 import ResultsContainer from '../containers/resultsContainer';
 import FriendsContainer from '../containers/friendsContainer';
@@ -13,14 +14,14 @@ const useStyles = makeStyles({
 })
 
 export default function Dashboard (props) {
-    console.log(props)
     const classes = useStyles()
-    const createTicketUrl = `http://localhost:3000/tickets`
-    const userBetsUrl = "http://localhost:3000/mybets/"
+    const usersContext = useContext(UsersContext);
+    const {handleUserInfo, handleBalance} = usersContext;
     
     const [userBets, setUserBets] = useState([]);
-
+    
     useEffect(() => {
+        const userBetsUrl = "http://localhost:3000/mybets/";
         const abortController = new AbortController()
         const signal = abortController.signal
         const token = localStorage.getItem('token')
@@ -32,14 +33,17 @@ export default function Dashboard (props) {
             'signal': signal
         }
         fetch(userBetsUrl, getObj)
-            .then(res => res.json())
-            .then(user => setUserBets(user.bets))
-            .catch(err => console.log(err))
-
+        .then(res => res.json())
+        .then(user => {
+            setUserBets(user.bets)
+        })
+        .catch(err => console.log(err))
+        
         return () => abortController.abort();
     }, [])
-
+    
     const addBet = (bet_id) => {
+        const createTicketUrl = `http://localhost:3000/tickets`;
         const token = localStorage.getItem('token')
         const postObj = {
             'method': 'POST',
@@ -54,7 +58,7 @@ export default function Dashboard (props) {
             .then(res => res.json())
             .then(ticket => {
                 setUserBets([...userBets, ticket.bet])
-                props.handleUserInfo()
+                handleUserInfo()
             })
     }
 
@@ -76,7 +80,7 @@ export default function Dashboard (props) {
                     return bet.tickets.find(ticket => ticket.user_id === props.user.id).id !== ticketId
                 })
                 setUserBets(filteredArray)
-                props.handleUserInfo()
+                handleUserInfo()
             })
     }
     
@@ -89,7 +93,7 @@ export default function Dashboard (props) {
             
             <Grid item xs={6}>
                 <h6 className={classes.headings}>My Bets</h6>
-                <ResultsContainer userBets={userBets} user={props.user} handleBalance={props.handleBalance} deleteTicket={deleteTicket}/>
+                <ResultsContainer userBets={userBets} user={props.user} handleBalance={handleBalance} deleteTicket={deleteTicket}/>
             </Grid>
                 
             <Grid item xs={6}>

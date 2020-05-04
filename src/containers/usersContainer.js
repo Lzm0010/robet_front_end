@@ -1,10 +1,14 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {Fragment, useState, useEffect, useContext} from 'react';
+import {UsersContext} from '../context/usersContext';
 import User from '../components/user';
 import EventTable from '../components/eventTable';
 
 const UsersContainer = (props) => {
     const usersUrl = "http://localhost:3000/users"
     const createRshipUrl = `http://localhost:3000/relationships`
+
+    const usersContext = useContext(UsersContext);
+    const {userInfo, handleUserInfo} = usersContext;
 
     const [users, setUsers] = useState([])
 
@@ -41,7 +45,7 @@ const UsersContainer = (props) => {
         }
         fetch(createRshipUrl, postObj)
             .then(res => res.json())
-            .then(relationship => console.log(relationship))
+            .then(() => handleUserInfo())
     }
 
     const unFollowUser = (relationshipId) => {
@@ -57,13 +61,13 @@ const UsersContainer = (props) => {
         }
         fetch(delRshipUrl, delObj)
             .then(res => res.json())
-            .then(relationship => console.log(relationship))
+            .then(() => handleUserInfo())
     }
     
     return (
         <Fragment>
             <EventTable headers={["Username", "Follow/Unfollow"]}>
-                {users.map(user => <User key={`user-${user.id}`} user={user} followUser={followUser} unFollowUser={unFollowUser}/> )}
+                {users.map(user => <User key={`user-${user.id}`}  currentUser={userInfo} user={user} followUser={followUser} unFollowUser={unFollowUser}/> )}
             </EventTable>
         </Fragment>
     )
