@@ -1,5 +1,5 @@
 import React, {Fragment, useState, useEffect} from 'react';
-import EventTable from '../components/eventTable';
+import DrawerTable from '../components/drawerTable';
 import RobetResult from '../components/robetResult';
 import { TableRow, TableCell } from '@material-ui/core';
 
@@ -36,7 +36,7 @@ const RoBetContainer = () => {
                     <div>Fetching Robet's Record</div>
                     )
                 }
-                <EventTable headers={["Event", "Bet", "Prediction", "Delta", "Result"]}>
+                <DrawerTable headers={["Event", "Bet", "Prediction", "Delta", "Result"]}>
                     {roBets !== undefined ? (
                         roBets.map(bet => <RobetResult key={`rb-${bet.id}`} prediction={bet} />)
                         ) : (
@@ -46,7 +46,7 @@ const RoBetContainer = () => {
                                 </TableCell>
                             </TableRow>
                         )}
-                </EventTable>
+                </DrawerTable>
             </Fragment>
         )
     }

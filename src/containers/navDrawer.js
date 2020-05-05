@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Drawer from '@material-ui/core/Drawer';
-// import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Profile from '../pages/profile';
 import UsersContainer from '../containers/usersContainer';
 import RoBetContainer from '../containers/roBetContainer';
@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
       width: 'auto',
     },
     profile: {
-      width: 700,
+      width: "100%",
     }
   }));
 
-function NavDrawer() {
+function NavDrawer({user}) {
   const classes = useStyles();
   const [state, setState] = useState({
     left: false,
@@ -55,10 +55,9 @@ function NavDrawer() {
     <div
       className={clsx(classes.list, classes.profile)}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <Component/>
+      <Component user={user}/>
     </div>
   )
 
@@ -76,9 +75,11 @@ function NavDrawer() {
         {['left', 'bottom', 'right'].map((anchor, index) => (
           <Fragment key={anchor}>
             <Tab onClick={toggleDrawer(anchor, true, index)} aria-label={linkList[index]} label={linkList[index]}/>
-            <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
-              {section(anchor, components[index])}
-            </Drawer>
+              <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+                <ClickAwayListener onClickAway={toggleDrawer(anchor, false, index)}>
+                  {section(anchor, components[index])}
+                </ClickAwayListener>
+              </Drawer>
           </Fragment>
         ))}
         <Tab onClick={logOut} aria-label="logout" label="Logout"/>

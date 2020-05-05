@@ -14,6 +14,7 @@ export const Provider = props => {
     //state to keep the values
     const [userInfo, setUserInfo] = useState(initialUserInfo);
     const [balance, setBalance] = useState(initialBalance);
+    const [friends, setFriends] = useState([])
 
     const handleUserInfo = () => {
         const userInfoUrl = "http://localhost:3000/mybets/"
@@ -34,39 +35,99 @@ export const Provider = props => {
             .catch(err => console.log(err))
       };
     
-      const handleBalance = (money) => {
-          const editUserUrl = `http://localhost:3000/users/${userInfo.id}`
-          const token = localStorage.getItem('token')
-          const userObj = {
-              'method': 'PATCH',
-              'headers': {
-                  'Authorization': `Bearer ${token}`,
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
-              },
-              'body': JSON.stringify({balance: parseFloat(balance) + parseFloat(money)}) 
-          }
-          fetch(editUserUrl, userObj)
-              .then(res => res.json())
-              .then(user => {
-                setBalance(user.balance)
-                setUserInfo(user)
-              })
-      };
+    const handleBalance = (money) => {
+        const editUserUrl = `http://localhost:3000/users/${userInfo.id}`
+        const token = localStorage.getItem('token')
+        const userObj = {
+            'method': 'PATCH',
+            'headers': {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            'body': JSON.stringify({balance: parseFloat(balance) + parseFloat(money)}) 
+        }
+        fetch(editUserUrl, userObj)
+            .then(res => res.json())
+            .then(user => {
+            setBalance(user.balance)
+            setUserInfo(user)
+            })
+    };
 
-      useEffect(() => {
-          handleUserInfo()
-      }, [])
+    const getFriends = () => {
+        const myFriendsUrl = "http://localhost:3000/myfriends"
+        const token = localStorage.getItem('token')
+        const getObj = {
+            'method': 'GET',
+            'headers': {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        fetch(myFriendsUrl, getObj)
+        .then(res => res.json())
+        .then((friends) => setFriends(friends))
+        .catch(err => console.log(err))
+    }
 
-      //make the context object
-      const usersContext = {
-          userInfo,
-          setUserInfo,
-          balance,
-          setBalance,
-          handleUserInfo,
-          handleBalance
-      };
+    const followUser = (userId) => {
+    const createRshipUrl = `http://localhost:3000/relationships`
+    const token = localStorage.getItem('token')
+    const postObj = {
+        'method': 'POST',
+        'headers': {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        'body': JSON.stringify({follower_id: userInfo.id, followed_id: userId}) 
+    }
+    fetch(createRshipUrl, postObj)
+        .then(res => res.json())
+        .then(friend => {
+            setFriends([...friends, friend])
+            handleUserInfo()}
+        )
+    }
+
+    const unFollowUser = (relationshipId) => {
+        const delRshipUrl = `http://localhost:3000/relationships/${relationshipId}`
+        const token = localStorage.getItem('token')
+        const delObj = {
+            'method': 'DELETE',
+            'headers': {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            } 
+        }
+        fetch(delRshipUrl, delObj)
+            .then(res => res.json())
+            .then(bye_friend => {
+                const filteredArray = friends.filter(friend => friend.id !== bye_friend.id)
+                setFriends(filteredArray)
+                handleUserInfo()
+            })
+    }
+
+    useEffect(() => {
+        handleUserInfo()
+        getFriends()
+    }, [])
+
+    //make the context object
+    const usersContext = {
+        userInfo,
+        setUserInfo,
+        balance,
+        setBalance,
+        friends,
+        setFriends,
+        handleUserInfo,
+        handleBalance,
+        followUser,
+        unFollowUser
+    };
     
     return <UsersContext.Provider value={usersContext}>{children}</UsersContext.Provider>
 };

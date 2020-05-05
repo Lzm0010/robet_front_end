@@ -4,15 +4,13 @@ import User from '../components/user';
 import EventTable from '../components/eventTable';
 
 const UsersContainer = (props) => {
-    const usersUrl = "http://localhost:3000/users"
-    const createRshipUrl = `http://localhost:3000/relationships`
-
     const usersContext = useContext(UsersContext);
-    const {userInfo, handleUserInfo} = usersContext;
-
+    const {userInfo, followUser, unFollowUser} = usersContext;
+    
     const [users, setUsers] = useState([])
-
+    
     useEffect(() => {
+        const usersUrl = "http://localhost:3000/users"
         const abortController = new AbortController()
         const signal = abortController.signal
         const token = localStorage.getItem('token')
@@ -30,39 +28,6 @@ const UsersContainer = (props) => {
 
         return () => abortController.abort();
     }, [])
-
-
-    const followUser = (userId) => {
-        const token = localStorage.getItem('token')
-        const postObj = {
-            'method': 'POST',
-            'headers': {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            'body': JSON.stringify({follower_id:props.user.id, followed_id: userId}) 
-        }
-        fetch(createRshipUrl, postObj)
-            .then(res => res.json())
-            .then(() => handleUserInfo())
-    }
-
-    const unFollowUser = (relationshipId) => {
-        const delRshipUrl = `http://localhost:3000/relationships/${relationshipId}`
-        const token = localStorage.getItem('token')
-        const delObj = {
-            'method': 'DELETE',
-            'headers': {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            } 
-        }
-        fetch(delRshipUrl, delObj)
-            .then(res => res.json())
-            .then(() => handleUserInfo())
-    }
     
     return (
         <Fragment>

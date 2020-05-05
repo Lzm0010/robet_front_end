@@ -22,7 +22,7 @@ function App() {
 
   const MainContainer = () => (
     <Fragment>
-        {isNavHidden ? null : <NavDrawer/> }
+        {isNavHidden ? null : <NavDrawer user={user}/> }
         <PrivateRoute exact path="/dashboard" component={Dashboard} authed={authed} user={user} />
     </Fragment>
   )

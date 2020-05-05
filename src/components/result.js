@@ -121,9 +121,12 @@ export default function Result ({result, ticketId, handleBalance, deleteTicket})
                         <span>$ {parseFloat(betReturn).toFixed(2)}</span>
                     ): <span>TBD</span>}
                 </TableCell>
+                {deleteTicket ? (
                 <TableCell>
                     <RemoveTicketButton ticketId={ticketId} deleteTicket={deleteTicket}/>
-                </TableCell>
+                </TableCell> ) : (
+                    null
+                )}
             </TableRow>
             ):(
             <TableRow>
