@@ -112,7 +112,7 @@ export default function Dashboard (props) {
                 setUserBets(filteredArray)
                 handleUserInfo()
             })
-            
+
         setMessage("Bet removed!")
         setSeverity("success")
         setTransition(() => TransitionLeft);
