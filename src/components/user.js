@@ -20,10 +20,10 @@ export default function User ({currentUser, user, followUser, unFollowUser}) {
         <Fragment>
         {user !== undefined ? (
             <TableRow>
-                <TableCell component="th" scope="row">
+                <TableCell align="center" component="th" scope="row">
                     {user.username}
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                     <FollowButton handleClick={handleClick}  followingState={followingState}/>
                 </TableCell>
             </TableRow>

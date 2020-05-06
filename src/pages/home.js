@@ -93,7 +93,7 @@ export default function Home () {
 
             </svg>
             </Button>
-            <h3>Click RoBet The RoBot to get started</h3>
+            <h3>Click RoBet the RoBot to Get Started</h3>
             </div>
         </Fragment>
     );

@@ -20,9 +20,14 @@ function App() {
     setIsNavHidden(false)
   };
 
+  const logOut = () => {
+    window.localStorage.clear()
+    window.location.href = "/login" 
+  }
+
   const MainContainer = () => (
     <Fragment>
-        {isNavHidden ? null : <NavDrawer user={user}/> }
+        {isNavHidden ? null : <NavDrawer user={user} logOut={logOut}/> }
         <PrivateRoute exact path="/dashboard" component={Dashboard} authed={authed} user={user} />
     </Fragment>
   )

@@ -11,19 +11,19 @@ export default function Friend ({friend}) {
                 <TableCell component="th" scope="row">
                     
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                     {friend.username}
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                     {friend.record.wins}
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                     {friend.record.losses}
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                     {friend.record.ties}
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
 
                 </TableCell>
             </TableRow>

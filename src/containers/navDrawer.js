@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Drawer from '@material-ui/core/Drawer';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Profile from '../pages/profile';
+import PredictaBot from '../pages/predictaBot';
 import UsersContainer from '../containers/usersContainer';
 import RoBetContainer from '../containers/roBetContainer';
 
@@ -25,19 +26,15 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function NavDrawer({user}) {
+function NavDrawer({user, logOut}) {
   const classes = useStyles();
   const [state, setState] = useState({
     left: false,
     right: false,
     bottom: false,
+    top: false,
   });
   const [value, setValue] = useState(0);
-
-  const logOut = () => {
-    window.localStorage.clear()
-    window.location.href = "/login" 
-  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -47,22 +44,22 @@ function NavDrawer({user}) {
       if (event.type ==="keydown" && (event.key === 'Tab' || event.key === 'Shift')){
           return;
       }
+    
       setState({...state, [anchor]: open});
       handleChange(event,index)
   }
 
-  const section = (anchor, Component) => (
+  const section = (Component) => (
     <div
       className={clsx(classes.list, classes.profile)}
       role="presentation"
-      onKeyDown={toggleDrawer(anchor, false)}
     >
       <Component user={user}/>
     </div>
   )
 
-  const linkList = ['Profile', 'Users', 'RoBet']
-  const components = [Profile, UsersContainer, RoBetContainer]
+  const linkList = ['Profile', 'Users', 'RoBet', 'PredictaBot']
+  const components = [Profile, UsersContainer, RoBetContainer, PredictaBot]
   return (
     <Paper className={classes.root}>
       <Tabs
@@ -72,12 +69,12 @@ function NavDrawer({user}) {
         textColor="primary"
         centered
       >
-        {['left', 'bottom', 'right'].map((anchor, index) => (
+        {['left', 'bottom', 'right', 'top'].map((anchor, index) => (
           <Fragment key={anchor}>
             <Tab onClick={toggleDrawer(anchor, true, index)} aria-label={linkList[index]} label={linkList[index]}/>
-              <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+              <Drawer anchor={anchor} open={state[anchor]}>
                 <ClickAwayListener onClickAway={toggleDrawer(anchor, false, index)}>
-                  {section(anchor, components[index])}
+                  {section(components[index])}
                 </ClickAwayListener>
               </Drawer>
           </Fragment>

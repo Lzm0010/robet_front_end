@@ -1,7 +1,7 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import DrawerTable from '../components/drawerTable';
 import RobetResult from '../components/robetResult';
-import { TableRow, TableCell } from '@material-ui/core';
+import { TableRow, TableCell, Container } from '@material-ui/core';
 
 const RoBetContainer = () => {
     const betsUrl = "http://localhost:3000/robetbets"
@@ -28,7 +28,7 @@ const RoBetContainer = () => {
     }, [])
 
         return (
-            <Fragment>
+            <Container>
                 <h2>RoBet's Bets</h2>
                 
                 {roBets[0] !== undefined ? (
@@ -47,7 +47,7 @@ const RoBetContainer = () => {
                             </TableRow>
                         )}
                 </DrawerTable>
-            </Fragment>
+            </Container>
         )
     }
 

@@ -30,7 +30,7 @@ export default function Login (props) {
     const history = useHistory()
 
     const usersContext = useContext(UsersContext);
-    const {handleUserInfo} = usersContext;
+    const {handleUserInfo, getFriends} = usersContext;
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -54,6 +54,7 @@ export default function Login (props) {
                     localStorage.setItem('token', user.jwt)
                     props.handleLogin(user.user)
                     handleUserInfo()
+                    getFriends()
                 })
 
 

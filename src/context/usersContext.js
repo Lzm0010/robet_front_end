@@ -14,7 +14,8 @@ export const Provider = props => {
     //state to keep the values
     const [userInfo, setUserInfo] = useState(initialUserInfo);
     const [balance, setBalance] = useState(initialBalance);
-    const [friends, setFriends] = useState([])
+    const [friends, setFriends] = useState([]);
+    
 
     const handleUserInfo = () => {
         const userInfoUrl = "http://localhost:3000/mybets/"
@@ -68,7 +69,7 @@ export const Provider = props => {
         .then(res => res.json())
         .then((friends) => setFriends(friends))
         .catch(err => console.log(err))
-    }
+    };
 
     const followUser = (userId) => {
     const createRshipUrl = `http://localhost:3000/relationships`
@@ -110,11 +111,6 @@ export const Provider = props => {
             })
     }
 
-    useEffect(() => {
-        handleUserInfo()
-        getFriends()
-    }, [])
-
     //make the context object
     const usersContext = {
         userInfo,
@@ -123,6 +119,7 @@ export const Provider = props => {
         setBalance,
         friends,
         setFriends,
+        getFriends,
         handleUserInfo,
         handleBalance,
         followUser,
