@@ -10,7 +10,6 @@ const FriendsContainer = () => {
     
     return (
         <Fragment>
-            {console.log(friends)}
         <EventTable headers={["Ranking", "Username", "Wins", "Losses", "Ties", "More Details"]}>
             {friends.map(friend => <Friend key={`f-${friend.id}`} friend={friend} />)}
         </EventTable>

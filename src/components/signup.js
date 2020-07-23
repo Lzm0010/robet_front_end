@@ -28,14 +28,14 @@ export default function Signup (props) {
     const history = useHistory()
 
     const usersContext = useContext(UsersContext);
-    const {handleUserInfo} = usersContext;
+    const {handleUserInfo, getFriends} = usersContext;
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
 
-    const signupUrl = "http://localhost:3000/users";
+    const signupUrl = "https://secure-chamber-07550.herokuapp.com/users";
 
     const signup = (user) => {
         const postObj = {
@@ -53,6 +53,7 @@ export default function Signup (props) {
                     localStorage.setItem('token', user.jwt)
                     props.handleLogin(user.user)
                     handleUserInfo()
+                    getFriends()
                 })
     }
     

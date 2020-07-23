@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 function TransitionLeft(props) {
     return <Slide {...props} direction="left" />;
-  }
+}
 
 export default function Dashboard (props) {
     const classes = useStyles()
@@ -37,7 +37,7 @@ export default function Dashboard (props) {
     };
     
     useEffect(() => {
-        const userBetsUrl = "http://localhost:3000/mybets/";
+        const userBetsUrl = "https://secure-chamber-07550.herokuapp.com/mybets/";
         const abortController = new AbortController()
         const signal = abortController.signal
         const token = localStorage.getItem('token')
@@ -66,7 +66,7 @@ export default function Dashboard (props) {
             setOpen(true);
 
         } else {
-            const createTicketUrl = `http://localhost:3000/tickets`;
+            const createTicketUrl = `https://secure-chamber-07550.herokuapp.com/tickets`;
             const token = localStorage.getItem('token')
             const postObj = {
                 'method': 'POST',
@@ -93,7 +93,7 @@ export default function Dashboard (props) {
     }
 
     const deleteTicket = (ticketId) => {
-        const delTicketUrl = `http://localhost:3000/tickets/${ticketId}`
+        const delTicketUrl = `https://secure-chamber-07550.herokuapp.com/tickets/${ticketId}`
         const token = localStorage.getItem('token')
         const delObj = {
             'method': 'DELETE',
@@ -121,22 +121,22 @@ export default function Dashboard (props) {
     
     return (
         <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
                 <h6 className={classes.headings}>RoBet's Best Picks</h6>
                 <PredictionsContainer addBet={addBet}/>
             </Grid>
             
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
                 <h6 className={classes.headings}>My Bets</h6>
                 <ResultsContainer userBets={userBets} user={props.user} handleBalance={handleBalance} deleteTicket={deleteTicket}/>
             </Grid>
                 
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
                 <h6 className={classes.headings}>Friend's Performance</h6>
                 <FriendsContainer />
             </Grid>
                 
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6}>
                 <h6 className={classes.headings}>Today's Games</h6>
                 <EventsContainer addBet={addBet}/>
             </Grid>

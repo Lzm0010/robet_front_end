@@ -19,7 +19,7 @@ const useStyles = makeStyles({
         height: 20
     },
     cells: {
-        fontSize: 11
+        fontSize: 10
     }
 })
 
@@ -47,7 +47,7 @@ export default function Result ({result, ticketId, handleBalance, deleteTicket})
     
     const handleAmount = (event) => {
         event.preventDefault()
-        const editTicketUrl = `http://localhost:3000/tickets/${ticketId}`
+        const editTicketUrl = `https://secure-chamber-07550.herokuapp.com/tickets/${ticketId}`
         const token = localStorage.getItem('token')
         const ticketObj = {
             'method': 'PATCH',

@@ -4,7 +4,8 @@ import TableCell from '@material-ui/core/TableCell';
 import FollowButton from './followButton';
 
 export default function User ({currentUser, user, followUser, unFollowUser}) {
-    const [followingState, setFollowingState] = useState(currentUser.active_relationships.some(rship => rship.followed_id === user.id))
+    const hasRelationship = currentUser.active_relationships !== undefined ? currentUser.active_relationships.some(rship => rship.followed_id === user.id) : false;
+    const [followingState, setFollowingState] = useState(hasRelationship)
     
     const handleClick = () => {
         if (followingState === false){

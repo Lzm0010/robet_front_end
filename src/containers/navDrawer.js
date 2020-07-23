@@ -14,6 +14,11 @@ import RoBetContainer from '../containers/roBetContainer';
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
+      backgroundColor: "#303f9f",
+      color: "#FFF"
+    },
+    logout: {
+      color:"#FFF"
     },
     list: {
       width: 250,
@@ -65,8 +70,8 @@ function NavDrawer({user, logOut}) {
       <Tabs
         value={value}
         onChange={handleChange}
-        indicatorColor="primary"
-        textColor="primary"
+        indicatorColor="secondary"
+        textColor="secondary"
         centered
       >
         {['left', 'bottom', 'right', 'top'].map((anchor, index) => (
@@ -79,7 +84,7 @@ function NavDrawer({user, logOut}) {
               </Drawer>
           </Fragment>
         ))}
-        <Tab onClick={logOut} aria-label="logout" label="Logout"/>
+        <Tab className={classes.logout} onClick={logOut} aria-label="logout" label="Logout"/>
       </Tabs>
     </Paper>
   )

@@ -36,7 +36,7 @@ export default function Login (props) {
     const [password, setPassword] = useState("");
 
 
-    const loginUrl = "http://localhost:3000/login";
+    const loginUrl = "https://secure-chamber-07550.herokuapp.com/login";
     
     const login = (user) => {
         const postObj = {

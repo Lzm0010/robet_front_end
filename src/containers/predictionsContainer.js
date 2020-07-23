@@ -3,7 +3,7 @@ import EventTable from '../components/eventTable';
 import Prediction from '../components/prediction';
 
 const PredictionsContainer = ({addBet}) => {
-    const bestBetsUrl = "http://localhost:3000/bestbets"
+    const bestBetsUrl = "https://secure-chamber-07550.herokuapp.com/bestbets"
     
     const [bestBets, setBestBets] = useState([])
   

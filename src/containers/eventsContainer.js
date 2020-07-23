@@ -4,7 +4,7 @@ import EventTable from '../components/eventTable';
 
 
 const EventsContainer = ({addBet}) => {
-  const eventsUrl = "http://localhost:3000/events"
+  const eventsUrl = "https://secure-chamber-07550.herokuapp.com/events"
     
   const [events, setEvents] = useState([])
   

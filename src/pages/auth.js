@@ -12,9 +12,11 @@ export default function Auth (props) {
     }, [isFlipped]);
 
     return (
+        <div className="background">
         <ReactCardFlip isFlipped={isFlipped}>
             <Login flip={handleFlipClick} flipDirection="horizontal" flipSpeedBackToFront={0.1} {...props} handleLogin={props.handleLogin}/>
             <Signup flip={handleFlipClick} flipDirection="horizontal" flipSpeedBackToFront={0.1} {...props} handleLogin={props.handleLogin}/>
         </ReactCardFlip>
+        </div>
     );
 }

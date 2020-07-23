@@ -10,7 +10,7 @@ const useStyles = makeStyles({
       height: 20
     },
     cells: {
-        fontSize: 11
+        fontSize: 10
     }
 });
 

@@ -4,7 +4,7 @@ import RobetResult from '../components/robetResult';
 import { TableRow, TableCell, Container } from '@material-ui/core';
 
 const RoBetContainer = () => {
-    const betsUrl = "http://localhost:3000/robetbets"
+    const betsUrl = "https://secure-chamber-07550.herokuapp.com/robetbets"
     
     const [roBets, setRoBets] = useState([])
   

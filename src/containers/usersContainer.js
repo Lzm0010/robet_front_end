@@ -10,7 +10,7 @@ const UsersContainer = (props) => {
     const [users, setUsers] = useState([])
     
     useEffect(() => {
-        const usersUrl = "http://localhost:3000/users"
+        const usersUrl = "https://secure-chamber-07550.herokuapp.com/users"
         const abortController = new AbortController()
         const signal = abortController.signal
         const token = localStorage.getItem('token')

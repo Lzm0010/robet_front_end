@@ -39,7 +39,7 @@ const PredictaBot = () => {
     
     
     useEffect(() => {
-        const leaguesUrl = "http://localhost:3000/leagues"
+        const leaguesUrl = "https://secure-chamber-07550.herokuapp.com/leagues"
         const abortController = new AbortController()
         const signal = abortController.signal
         const token = localStorage.getItem('token')
@@ -61,7 +61,7 @@ const PredictaBot = () => {
     const handleLeagueChange = (event) => {
         setLeague(event.target.value)
         const leagueId = leagues.find(league => event.target.value === league.name).id
-        const teamsUrl = `http://localhost:3000/teams/${leagueId}`
+        const teamsUrl = `https://secure-chamber-07550.herokuapp.com/teams/${leagueId}`
         const token = localStorage.getItem('token')
         const getObj = {
             'method': 'GET',

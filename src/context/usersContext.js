@@ -1,4 +1,4 @@
-import React, {createContext, useState, useEffect} from 'react';
+import React, {createContext, useState} from 'react';
 import PropTypes from "prop-types";
 
 export const UsersContext = createContext({});
@@ -18,7 +18,7 @@ export const Provider = props => {
     
 
     const handleUserInfo = () => {
-        const userInfoUrl = "http://localhost:3000/mybets/"
+        const userInfoUrl = "https://secure-chamber-07550.herokuapp.com/mybets/"
         const token = localStorage.getItem('token')
         const getObj = {
             'method': 'GET',
@@ -37,7 +37,7 @@ export const Provider = props => {
       };
     
     const handleBalance = (money) => {
-        const editUserUrl = `http://localhost:3000/users/${userInfo.id}`
+        const editUserUrl = `https://secure-chamber-07550.herokuapp.com/users/${userInfo.id}`
         const token = localStorage.getItem('token')
         const userObj = {
             'method': 'PATCH',
@@ -57,7 +57,7 @@ export const Provider = props => {
     };
 
     const getFriends = () => {
-        const myFriendsUrl = "http://localhost:3000/myfriends"
+        const myFriendsUrl = "https://secure-chamber-07550.herokuapp.com/myfriends"
         const token = localStorage.getItem('token')
         const getObj = {
             'method': 'GET',
@@ -72,7 +72,7 @@ export const Provider = props => {
     };
 
     const followUser = (userId) => {
-    const createRshipUrl = `http://localhost:3000/relationships`
+    const createRshipUrl = `https://secure-chamber-07550.herokuapp.com/relationships`
     const token = localStorage.getItem('token')
     const postObj = {
         'method': 'POST',
@@ -92,7 +92,7 @@ export const Provider = props => {
     }
 
     const unFollowUser = (relationshipId) => {
-        const delRshipUrl = `http://localhost:3000/relationships/${relationshipId}`
+        const delRshipUrl = `https://secure-chamber-07550.herokuapp.com/relationships/${relationshipId}`
         const token = localStorage.getItem('token')
         const delObj = {
             'method': 'DELETE',
@@ -110,6 +110,32 @@ export const Provider = props => {
                 handleUserInfo()
             })
     }
+
+    // const handleAmount = (event, ticketId) => {
+    //     event.preventDefault()
+    //     const editTicketUrl = `http://localhost:3000/tickets/${ticketId}`
+    //     const token = localStorage.getItem('token')
+    //     const ticketObj = {
+    //         'method': 'PATCH',
+    //         'headers': {
+    //             'Authorization': `Bearer ${token}`,
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json'
+    //         },
+    //         'body': JSON.stringify({amount:amount}) 
+    //     }
+        
+    //     fetch(editTicketUrl, ticketObj)
+    //         .then(res => res.json())
+    //         .then(ticket => {
+    //             setAmount(ticket.amount)
+    //             if (ticket.bet.event.status === "finished") {
+    //                 handleBalance(parseFloat(ticket.return) - parseFloat(betReturn))
+    //             } 
+    //             setBetReturn(ticket.return)
+    //         })
+
+    // }
 
     //make the context object
     const usersContext = {
