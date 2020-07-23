@@ -6,11 +6,14 @@ import EventTable from '../components/eventTable';
 const UsersContainer = (props) => {
     const usersContext = useContext(UsersContext);
     const {userInfo, followUser, unFollowUser} = usersContext;
+
+    const baseUrl = "http://localhost:3000"
+    // const baseUrl = "https://secure-chamber-07550.herokuapp.com"
     
     const [users, setUsers] = useState([])
     
     useEffect(() => {
-        const usersUrl = "https://secure-chamber-07550.herokuapp.com/users"
+        const usersUrl = `${baseUrl}/users`
         const abortController = new AbortController()
         const signal = abortController.signal
         const token = localStorage.getItem('token')

@@ -15,11 +15,11 @@ const useStyles = makeStyles({
         color: 'grey'
     },
     logo: {
-        width: 30,
-        height: 20
+        width: 29,
+        height: 19
     },
     cells: {
-        fontSize: 10
+        fontSize: 9
     }
 })
 
@@ -39,6 +39,9 @@ export default function Result ({result, ticketId, handleBalance, deleteTicket})
     const [betReturn, setBetReturn] = useState(result.tickets.find(ticket=> ticket.id === ticketId).return)
     const classes = useStyles()
 
+    const baseUrl = "http://localhost:3000"
+    // const baseUrl = "https://secure-chamber-07550.herokuapp.com"
+
     const mapLogo = () => {
         const homeTeam = logos[`${result.event.home_team.logo}`]
         const awayTeam = logos[`${result.event.away_team.logo}`]
@@ -47,7 +50,7 @@ export default function Result ({result, ticketId, handleBalance, deleteTicket})
     
     const handleAmount = (event) => {
         event.preventDefault()
-        const editTicketUrl = `https://secure-chamber-07550.herokuapp.com/tickets/${ticketId}`
+        const editTicketUrl = `${baseUrl}/tickets/${ticketId}`
         const token = localStorage.getItem('token')
         const ticketObj = {
             'method': 'PATCH',

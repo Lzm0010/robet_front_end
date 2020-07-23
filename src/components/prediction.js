@@ -6,11 +6,11 @@ import TrackBetButton from './trackBetButton';
 
 const useStyles = makeStyles({
     logo: {
-      width: 30,
-      height: 20
+      width: 29,
+      height: 19
     },
     cells: {
-        fontSize: 10
+        fontSize: 9
     }
 });
 

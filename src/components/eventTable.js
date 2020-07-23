@@ -14,12 +14,12 @@ const useStyles = makeStyles({
         width: '100%'
     },
     container: {
-      minWidth: 450,
+      minWidth: 400,
       maxHeight: 350,
       minHeight: 350
     },
     header: {
-        fontSize: 11
+        fontSize: 10
     }
 });
 

@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 const useStyles = makeStyles({
     cells: {
-        fontSize: 10
+        fontSize: 9
     }
 });
 

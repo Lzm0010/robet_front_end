@@ -15,10 +15,13 @@ export const Provider = props => {
     const [userInfo, setUserInfo] = useState(initialUserInfo);
     const [balance, setBalance] = useState(initialBalance);
     const [friends, setFriends] = useState([]);
+
+    const baseUrl = "http://localhost:3000"
+    // const baseUrl = "https://secure-chamber-07550.herokuapp.com"
     
 
     const handleUserInfo = () => {
-        const userInfoUrl = "https://secure-chamber-07550.herokuapp.com/mybets/"
+        const userInfoUrl = `${baseUrl}/mybets/`
         const token = localStorage.getItem('token')
         const getObj = {
             'method': 'GET',
@@ -37,7 +40,7 @@ export const Provider = props => {
       };
     
     const handleBalance = (money) => {
-        const editUserUrl = `https://secure-chamber-07550.herokuapp.com/users/${userInfo.id}`
+        const editUserUrl = `${baseUrl}/users/${userInfo.id}`
         const token = localStorage.getItem('token')
         const userObj = {
             'method': 'PATCH',
@@ -57,7 +60,7 @@ export const Provider = props => {
     };
 
     const getFriends = () => {
-        const myFriendsUrl = "https://secure-chamber-07550.herokuapp.com/myfriends"
+        const myFriendsUrl = `${baseUrl}/myfriends`
         const token = localStorage.getItem('token')
         const getObj = {
             'method': 'GET',
@@ -72,7 +75,7 @@ export const Provider = props => {
     };
 
     const followUser = (userId) => {
-    const createRshipUrl = `https://secure-chamber-07550.herokuapp.com/relationships`
+    const createRshipUrl = `${baseUrl}/relationships`
     const token = localStorage.getItem('token')
     const postObj = {
         'method': 'POST',
@@ -92,7 +95,7 @@ export const Provider = props => {
     }
 
     const unFollowUser = (relationshipId) => {
-        const delRshipUrl = `https://secure-chamber-07550.herokuapp.com/relationships/${relationshipId}`
+        const delRshipUrl = `${baseUrl}/relationships/${relationshipId}`
         const token = localStorage.getItem('token')
         const delObj = {
             'method': 'DELETE',

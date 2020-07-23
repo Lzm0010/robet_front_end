@@ -21,6 +21,9 @@ function TransitionLeft(props) {
 }
 
 export default function Dashboard (props) {
+    const baseUrl = "http://localhost:3000"
+    // const baseUrl = "https://secure-chamber-07550.herokuapp.com"
+
     const classes = useStyles()
     const usersContext = useContext(UsersContext);
     const {handleUserInfo, handleBalance} = usersContext;
@@ -37,7 +40,7 @@ export default function Dashboard (props) {
     };
     
     useEffect(() => {
-        const userBetsUrl = "https://secure-chamber-07550.herokuapp.com/mybets/";
+        const userBetsUrl = `${baseUrl}/mybets/`;
         const abortController = new AbortController()
         const signal = abortController.signal
         const token = localStorage.getItem('token')
@@ -66,7 +69,7 @@ export default function Dashboard (props) {
             setOpen(true);
 
         } else {
-            const createTicketUrl = `https://secure-chamber-07550.herokuapp.com/tickets`;
+            const createTicketUrl = `${baseUrl}/tickets`;
             const token = localStorage.getItem('token')
             const postObj = {
                 'method': 'POST',
@@ -93,7 +96,7 @@ export default function Dashboard (props) {
     }
 
     const deleteTicket = (ticketId) => {
-        const delTicketUrl = `https://secure-chamber-07550.herokuapp.com/tickets/${ticketId}`
+        const delTicketUrl = `${baseUrl}/tickets/${ticketId}`
         const token = localStorage.getItem('token')
         const delObj = {
             'method': 'DELETE',

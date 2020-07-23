@@ -35,7 +35,9 @@ export default function Signup (props) {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
 
-    const signupUrl = "https://secure-chamber-07550.herokuapp.com/users";
+    const baseUrl = "http://localhost:3000"
+    // const baseUrl = "https://secure-chamber-07550.herokuapp.com"
+    const signupUrl = `${baseUrl}/users`;
 
     const signup = (user) => {
         const postObj = {
@@ -68,7 +70,7 @@ export default function Signup (props) {
     return (
         <Grid container justify="center" alignItems="center" className={classes.root}>
         <Paper className={classes.paper} elevation={3}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
                 <TextField className={classes.input} variant="outlined" name="username" type="text" label="Username" required value={username} onChange={e => setUsername(e.target.value)}/>
                 <TextField className={classes.input} variant="outlined" name="email" type="email" label="Email" required value={email} onChange={e => setEmail(e.target.value)}/>
                 <TextField className={classes.input} variant="outlined" name="password" type="password" label="Password" required value={password} onChange={e => setPassword(e.target.value)}/>

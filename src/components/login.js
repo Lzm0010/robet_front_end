@@ -34,9 +34,20 @@ export default function Login (props) {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
 
+    const baseUrl = "http://localhost:3000"
+    // const baseUrl = "https://secure-chamber-07550.herokuapp.com"
 
-    const loginUrl = "https://secure-chamber-07550.herokuapp.com/login";
+    const loginUrl = `${baseUrl}/login`;
+
+    function checkError(response) {
+        if (response.status >= 200 && response.status <= 299) {
+          return response.json();
+        } else {
+          throw Error(response.statusText);
+        }
+    }
     
     const login = (user) => {
         const postObj = {
@@ -49,15 +60,16 @@ export default function Login (props) {
         }
 
         return fetch(loginUrl, postObj)
-                .then(res => res.json())
+                .then(checkError)
                 .then(user => {
                     localStorage.setItem('token', user.jwt)
                     props.handleLogin(user.user)
                     handleUserInfo()
                     getFriends()
                 })
-
-
+                .catch(err => {
+                    setError(true);
+                })
     }
     
     const handleSubmit = (e) => {
@@ -69,13 +81,14 @@ export default function Login (props) {
     return (
         <Grid container alignItems="center" justify="center" className={classes.root}>
             <Paper className={classes.paper} elevation={3}>
-                <form autoComplete="off" onSubmit={handleSubmit}>
+                <form autoComplete="off" onSubmit={handleSubmit} noValidate>
                     <TextField className={classes.input} variant="outlined" name="username" type="text" label="Username" required value={username} onChange={e => setUsername(e.target.value)}/>
                     <TextField className={classes.input} variant="outlined" name="password" type="password" label="Password" required value={password} onChange={e => setPassword(e.target.value)}/>
                     <ButtonGroup variant="contained" color="primary">
                         <Button type="submit">Login</Button>
                         <Button onClick={props.flip}>Signup</Button>
                     </ButtonGroup>
+                    {error ? <p>Username or password was incorrect.</p> : null}
                 </form>
             </Paper>
         </Grid>

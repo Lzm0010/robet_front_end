@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const PredictaBot = () => {
+    const baseUrl = "http://localhost:3000"
+    // const baseUrl = "https://secure-chamber-07550.herokuapp.com"
+
+    const pythonUrl = "http://localhost:5000"
+    // const pythonUrl = "https://serene-scrubland-52908.herokuapp.com"
+
     const classes = useStyles();
     const [leagues, setLeagues] = useState([]);
     const [league, setLeague] = useState("");
@@ -39,7 +45,7 @@ const PredictaBot = () => {
     
     
     useEffect(() => {
-        const leaguesUrl = "https://secure-chamber-07550.herokuapp.com/leagues"
+        const leaguesUrl = `${baseUrl}/leagues`;
         const abortController = new AbortController()
         const signal = abortController.signal
         const token = localStorage.getItem('token')
@@ -61,7 +67,7 @@ const PredictaBot = () => {
     const handleLeagueChange = (event) => {
         setLeague(event.target.value)
         const leagueId = leagues.find(league => event.target.value === league.name).id
-        const teamsUrl = `https://secure-chamber-07550.herokuapp.com/teams/${leagueId}`
+        const teamsUrl = `${baseUrl}/teams/${leagueId}`
         const token = localStorage.getItem('token')
         const getObj = {
             'method': 'GET',
@@ -85,7 +91,7 @@ const PredictaBot = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const predictUrl = `http://localhost:5000/${league}/${teamOne}/${teamTwo}`;
+        const predictUrl = `${pythonUrl}/${league}/${teamOne}/${teamTwo}`;
         const token = localStorage.getItem('token')
         const getObj = {
             'method': 'GET',

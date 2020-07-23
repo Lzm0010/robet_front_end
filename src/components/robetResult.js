@@ -14,8 +14,8 @@ const useStyles = makeStyles({
         color: 'grey'
     },
     logo: {
-        width: 30,
-        height: 20
+        width: 29,
+        height: 19
     }
 })
 
